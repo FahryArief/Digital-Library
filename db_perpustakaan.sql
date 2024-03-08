@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 08 Mar 2024 pada 07.04
+-- Waktu pembuatan: 08 Mar 2024 pada 07.22
 -- Versi server: 10.1.32-MariaDB
 -- Versi PHP: 5.6.36
 
@@ -45,6 +45,27 @@ CREATE TABLE `buku` (
 
 INSERT INTO `buku` (`id_buku`, `id_pengarang`, `id_penerbit`, `id_kategori`, `judul_buku`, `tahun_terbit`, `jumlah`, `ebook`) VALUES
 ('BK001', 2, 1, 1, 'Kumpulan Cerita Dongeng Anak Anak', '2000', 0, 'Kumpulan_Cerita_Dongeng_Anak_2.pdf');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `kategori`
+--
+
+CREATE TABLE `kategori` (
+  `id_kategori` int(11) NOT NULL,
+  `nama_kategori` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data untuk tabel `kategori`
+--
+
+INSERT INTO `kategori` (`id_kategori`, `nama_kategori`) VALUES
+(1, 'Fiksi'),
+(2, 'IPA'),
+(3, 'IPS'),
+(4, 'Non Fiksi');
 
 -- --------------------------------------------------------
 
@@ -152,6 +173,33 @@ CREATE TRIGGER `kembali` AFTER INSERT ON `pengembalian` FOR EACH ROW UPDATE buku
 $$
 DELIMITER ;
 
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `user`
+--
+
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL,
+  `nama` varchar(255) NOT NULL,
+  `username` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `jenkel` enum('Laki Laki','Perempuan') NOT NULL,
+  `alamat` text NOT NULL,
+  `no_hp` char(13) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `level` enum('Administrator','Petugas','Peminjam') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `user`
+--
+
+INSERT INTO `user` (`id`, `nama`, `username`, `password`, `jenkel`, `alamat`, `no_hp`, `email`, `level`) VALUES
+(2, 'Petugas', 'Petugas', 'afb91ef692fd08c445e8cb1bab2ccf9c', 'Perempuan', 'Jl.Untung Suropati ,Gg.Lamtoro ,Beringin Jaya ,Kemiling ,Bandar Lampu , Lampung', '089628771197', 'fahryarief231@gmail.com', 'Petugas'),
+(3, 'Admin', 'admin', '21232f297a57a5a743894a0e4a801fc3', 'Perempuan', 'Jl.Untung Suropati ,Gg.Lamtoro ,Beringin Jaya ,Kemiling ,Bandar Lampu , Lampung', '089628771197', 'fahryarief231@gmail.com', 'Administrator'),
+(5, 'Muhammad Fahry Arief Billah', 'peminjam', '55f3894bc5fc71fead8412d321c2952c', 'Perempuan', 'Jl.Untung Suropati ,Gg.Lamtoro ,Beringin Jaya ,Kemiling ,Bandar Lampu , Lampung', '089628771197', 'fahryarief231@gmail.com', 'Peminjam');
+
 --
 -- Indexes for dumped tables
 --
@@ -165,6 +213,12 @@ ALTER TABLE `buku`
   ADD KEY `id_pengarang_2` (`id_pengarang`),
   ADD KEY `id_penerbit` (`id_penerbit`),
   ADD KEY `id_kategori` (`id_kategori`);
+
+--
+-- Indeks untuk tabel `kategori`
+--
+ALTER TABLE `kategori`
+  ADD PRIMARY KEY (`id_kategori`);
 
 --
 -- Indeks untuk tabel `peminjaman`
@@ -195,8 +249,20 @@ ALTER TABLE `pengembalian`
   ADD KEY `id_buku` (`id_buku`);
 
 --
+-- Indeks untuk tabel `user`
+--
+ALTER TABLE `user`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT untuk tabel yang dibuang
 --
+
+--
+-- AUTO_INCREMENT untuk tabel `kategori`
+--
+ALTER TABLE `kategori`
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT untuk tabel `penerbit`
@@ -215,6 +281,12 @@ ALTER TABLE `pengarang`
 --
 ALTER TABLE `pengembalian`
   MODIFY `id_pengembalian` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
+-- AUTO_INCREMENT untuk tabel `user`
+--
+ALTER TABLE `user`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
